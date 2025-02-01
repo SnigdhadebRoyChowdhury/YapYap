@@ -11,16 +11,13 @@ async def fetch_data(id, delay):
 async def main():
     print("Start of main coroutine...")
     
-    # Create tasks for running coroutines concurrently
-    task1 = asyncio.create_task(fetch_data(1,2))
-    task2 = asyncio.create_task(fetch_data(2,2))
-    task3 = asyncio.create_task(fetch_data(3,2))
+    task1 = fetch_data(1,2)
+    task2 = fetch_data(2,2)
+    task3 = fetch_data(3,2)
 
-    result1 = await task1 
-    result2 = await task2
-    result3 = await task3
+    results = await asyncio.gather(task1,task2, task3)
 
-    print(result1, result2, result3)
+    print(results)
 
 if __name__=="__main__":
     start_time = time.time()
