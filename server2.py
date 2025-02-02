@@ -3,15 +3,14 @@ from websockets.asyncio.server import serve
 
 
 async def echo(websocket):
-    message = await websocket.recv()
-    print(f"CLient: {message}")
-
-    reply = input("Server:")
-    await websocket.send(reply)
+    async for message in websocket:
+        print(f"Client: {message}")
+        response = input("Server: ")
+        await websocket.send(response)
 
 
 async def main():
-    async with serve(echo, "localhost", 8765) as server:
+    async with serve(echo, "localhost", 8765, close_timeout=120) as server:
         await server.serve_forever()
 
 
